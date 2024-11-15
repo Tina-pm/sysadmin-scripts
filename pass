@@ -1,0 +1,6 @@
+#!/bin/sh
+
+BASEDIR="$(dirname "$0")"
+export PASSWORD_STORE_DIR="$(realpath "$BASEDIR/../secrets")"
+export PASSWORD_STORE_GPG_OPTS="--trust-model=always"
+exec pass "$@"
