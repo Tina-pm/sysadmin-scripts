@@ -16,4 +16,4 @@ sha = hashlib.sha1(seed).digest()
 
 mac = KVM_OUI + tuple(sha[:3])
 
-print('%02x:%02x:%02x:%02x:%02x:%02x' % mac)
+print("%02x:%02x:%02x:%02x:%02x:%02x" % mac)
