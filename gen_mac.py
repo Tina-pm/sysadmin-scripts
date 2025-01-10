@@ -1,4 +1,5 @@
 #!/usr/bin/env python3
+# vim:ts=2:sw=2:et:ai:sts=2
 
 # Generate a MAC address suitable for KVM.
 
