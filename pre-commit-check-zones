@@ -27,7 +27,7 @@ def main() -> int:
     return retcode
 
 
-def parse_args():
+def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     # fmt: off
     default_opts = [
