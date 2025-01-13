@@ -32,14 +32,14 @@ def parse_args() -> argparse.Namespace:
   parser = argparse.ArgumentParser()
   # fmt: off
   default_opts = [
-        # TODO(dato): add --lints option instead of hardcoding these.
-        "-k", "fail",
-        "-m", "fail",
-        "-M", "fail",
-        "-n", "fail",
-        "-r", "fail",
-        "-S", "fail",
-    ]
+    # TODO(dato): add --lints option instead of hardcoding these.
+    "-k", "fail",
+    "-m", "fail",
+    "-M", "fail",
+    "-n", "fail",
+    "-r", "fail",
+    "-S", "fail",
+  ]
   # fmt: on
 
   parser.add_argument("zonefiles", metavar="zonefile", nargs="+")
