@@ -10,6 +10,7 @@ import hashlib
 import random
 import sys
 
+
 KVM_OUI = (0x52, 0x54, 0x0)
 
 seed = sys.argv[1].encode() if len(sys.argv) > 1 else random.randbytes(8)
