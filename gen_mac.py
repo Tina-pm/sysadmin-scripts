@@ -3,6 +3,7 @@
 # Generate a MAC address suitable for KVM.
 
 # If passed a parameter, a deterministic address is generated.
+# E.g.: hostname-interface_name
 
 import hashlib
 import random
