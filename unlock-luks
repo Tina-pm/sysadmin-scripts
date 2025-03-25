@@ -1,0 +1,43 @@
+#!/bin/bash
+
+# unlock-luks: Connect to a host's SSH server running from initramfs to unlock
+# LUKS-encrypted disks. Uses the `pass` script to obtain the passphrase.
+
+set -e -o pipefail
+
+BASE_DIR="$(dirname "$0")"
+PASS_CMD="$BASE_DIR/pass"
+
+PASSFIFO='/lib/cryptsetup/passfifo'
+REMOTE_CMD="test -p '$PASSFIFO' && cat > '$PASSFIFO'"
+
+fail() {
+  echo "$@" >&2
+  exit 1
+}
+
+HOST="$1"
+shift || fail "Usage: $0 <hostname>"
+SHORT_HOST="${HOST%%.*}"
+
+SECRET=
+for key in "$HOST" "$SHORT_HOST"; do
+  SECRET=$("$PASS_CMD" "$key/luks" 2>/dev/null) || continue
+  echo "Using secret: '$key/luks'" >&2
+  break
+done
+[ -n "$SECRET" ] || fail "No secret available"
+
+SSH_OPTS=(
+  # Avoid DNS at this stage.
+  -o VerifyHostKeyDNS=no
+  # Use a different identifier in the known_hosts file.
+  -o HostKeyAlias="initramfs:$HOST"
+  # Log in as root.
+  -l root
+  # Pass any command line parameters.
+  "$@"
+)
+
+tr -d '\n' <<<"$SECRET" | \
+  ssh "${SSH_OPTS[@]}" "$HOST" "$REMOTE_CMD" || fail "Operation failed"
