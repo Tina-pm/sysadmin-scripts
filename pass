@@ -1,7 +1,11 @@
 #!/bin/sh
 # vim:ts=2:sw=2:et:ai:sts=2
 
+set -e
+
 BASEDIR="$(dirname "$0")"
-export PASSWORD_STORE_DIR="$(realpath "$BASEDIR/../secrets")"
-export PASSWORD_STORE_GPG_OPTS="--trust-model=always"
+PASSWORD_STORE_DIR="$(realpath "$BASEDIR/../secrets")"
+PASSWORD_STORE_GPG_OPTS="--trust-model=always"
+
+export PASSWORD_STORE_DIR PASSWORD_STORE_GPG_OPTS
 exec pass "$@"

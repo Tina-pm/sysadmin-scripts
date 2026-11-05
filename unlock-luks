@@ -22,7 +22,7 @@ SHORT_HOST="${HOST%%.*}"
 
 SECRET=
 for key in "$HOST" "$SHORT_HOST"; do
-  SECRET=$("$PASS_CMD" "$key/luks" 2>/dev/null) || continue
+  SECRET=$("$PASS_CMD" "$key/luks" 2> /dev/null) || continue
   echo "Using secret: '$key/luks'" >&2
   break
 done
@@ -39,5 +39,6 @@ SSH_OPTS=(
   "$@"
 )
 
-tr -d '\n' <<<"$SECRET" | \
+# shellcheck disable=SC2029
+tr -d '\n' <<< "$SECRET" |
   ssh "${SSH_OPTS[@]}" "$HOST" "$REMOTE_CMD" || fail "Operation failed"
